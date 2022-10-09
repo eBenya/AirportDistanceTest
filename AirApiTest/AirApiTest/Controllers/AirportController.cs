@@ -25,16 +25,27 @@ public class AirportController : Controller
     public async Task<IActionResult> CalculateDistance([FromQuery] string codeIATA1, [FromQuery] string codeIATA2,
         CancellationToken ctk)
     {
-        var twoAirportsLocationTuple = await _portInfoService.GetTwoAirportsLocation(codeIATA1, codeIATA2, ctk);
-        var p1 = twoAirportsLocationTuple.Item1.Adapt<Point>();
-        var p2 = twoAirportsLocationTuple.Item2.Adapt<Point>();
+        const DistanceService.DistanceType distanceType = DistanceService.DistanceType.Miles;
 
-        double result = DistanceService.Calculate(p1, p2);
+        var twoAirportsLocationTuple = await _portInfoService.GetTwoAirportsLocation(codeIATA1, codeIATA2, ctk);
+        var location1 = twoAirportsLocationTuple.Item1;
+        var location2 = twoAirportsLocationTuple.Item2;
+
+        var result = DistanceService.CalculateTwoPointGeoDistanceInMile(location1.Adapt<Point>(), location2.Adapt<Point>(), distanceType);
 
         return Ok(new
         {
             distance = result,
-            userMessage = $"The distance between {codeIATA1} and {codeIATA2} objects is {result} mile"
+            userMessage = $"The distance between {codeIATA1} and {codeIATA2} objects is {result} {distanceType}",
+            IATA1 = new {
+                Name = codeIATA1,
+                Location = location1
+            },
+            IATA2 = new
+            {
+                Name = codeIATA2,
+                Location = location2
+            },
         });
     }
 }
