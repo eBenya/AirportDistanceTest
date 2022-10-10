@@ -1,5 +1,4 @@
-﻿using AirportApiTest.Extensions;
-using AirportApiTest.Filters;
+﻿using AirportApiTest.Filters;
 using AirportApiTest.Services;
 using AirportApiTest.Services.PortServices;
 using Mapster;

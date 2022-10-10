@@ -1,9 +1,8 @@
 ﻿using AirportApiTest.Models.Records;
-using AirportApiTest.Services.PortServices;
 
-namespace AirportApiTest.Extensions;
+namespace AirportApiTest.Services.PortServices;
 
-public static class ControllerHelpers
+public static class PortInfoServiceHelpers
 {
     public static Task<(Location, Location)> GetTwoAirportsLocation(this IPortInfoService portInfoService,
         string codeIATA1,
